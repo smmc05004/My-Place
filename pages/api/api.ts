@@ -21,8 +21,6 @@ const axiosInstance = axios.create({
 });
 
 const axiosRequest = {
-	axios: axiosInstance,
-
 	handleError: (error: any) => {
 		if (error.response) {
 			// 요청이 이루어졌으며 서버가 2xx의 범위를 벗어나는 상태 코드로 응답.
@@ -40,13 +38,15 @@ const axiosRequest = {
 	},
 
 	get: async function ({ url, contentType = 'application/json' }: GetProps) {
-		return await axios({
+		const result = await axiosInstance({
 			method: method.get,
 			url: url,
 			headers: { 'Content-Type': contentType },
 		}).catch((error) => {
 			this.handleError(error);
 		});
+
+		return result;
 	},
 
 	// post: async (url: string) => {

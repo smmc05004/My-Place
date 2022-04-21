@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axiosRequest from '../api/api';
@@ -21,7 +22,10 @@ const Test = () => {
 	const [data, setData] = useState<Props>({ word: '' });
 
 	const getData = async () => {
-		const result = await axiosRequest.get({ url: '/api/test' });
+		const result = await axios({
+			method: 'get',
+			url: '/api/test',
+		});
 		setData(result?.data);
 	};
 
