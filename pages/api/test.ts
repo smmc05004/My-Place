@@ -1,12 +1,15 @@
+import axios from 'axios';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-type Data = {
-	name: string;
-};
-
-export default function handler(
+export default async function handler(
 	req: NextApiRequest,
-	res: NextApiResponse<Data>,
+	res: NextApiResponse,
 ) {
-	res.status(200).json({ name: 'John Doe' });
+	const result = await axios({
+		method: 'get',
+		url: 'http://localhost:4000/test',
+	});
+
+	// console.log('server result: ', result.data);
+	res.status(200).json(result.data);
 }
