@@ -19,7 +19,6 @@ interface Props {
 
 const Test = () => {
 	const [data, setData] = useState<Props>({ word: '' });
-	console.log('data: ', data);
 
 	const getData = async () => {
 		const result = await axiosRequest.get({ url: '/api/test' });
@@ -33,6 +32,7 @@ const Test = () => {
 	return (
 		<Wrapper>
 			<p>test 페이지</p>
+
 			<p>{data?.word}</p>
 		</Wrapper>
 	);

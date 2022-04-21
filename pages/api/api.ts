@@ -13,13 +13,14 @@ enum method {
 	delete = 'delete',
 }
 
+const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 const axiosInstance = axios.create({
-	baseURL: 'http://localhost:3000',
+	baseURL: baseUrl,
 	timeout: 5000,
 });
 
 const axiosRequest = {
-	baseUrl: 'http://localhost:3000',
 	axios: axiosInstance,
 
 	handleError: (error: any) => {
