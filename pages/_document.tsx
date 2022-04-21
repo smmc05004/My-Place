@@ -46,9 +46,16 @@ export default class MyDocument extends Document {
 	}
 
 	render(): ReactElement {
+		const kakaoKey = '';
+
 		return (
 			<Html lang="ko">
-				<Head></Head>
+				<Head>
+					<script
+						type="text/javascript"
+						src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoKey}&libraries=services`}
+					/>
+				</Head>
 
 				<body>
 					<Main />

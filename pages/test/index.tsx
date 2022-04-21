@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import axiosRequest from '../api/api';
 
 const Wrapper = styled.div`
 	width: 100%;
@@ -12,6 +14,18 @@ const Wrapper = styled.div`
 `;
 
 const Test = () => {
+	const [data, setData] = useState({});
+	console.log('data: ', data);
+
+	const getData = async () => {
+		const result = await axiosRequest.get({ url: '/api/hello' });
+		setData(result?.data);
+	};
+
+	useEffect(() => {
+		getData();
+	}, []);
+
 	return (
 		<Wrapper>
 			<p>test 페이지</p>
