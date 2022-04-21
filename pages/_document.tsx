@@ -46,7 +46,7 @@ export default class MyDocument extends Document {
 	}
 
 	render(): ReactElement {
-		const kakaoKey = '';
+		const kakaoKey = process.env.NEXT_PUBLIC_KAKAO_API_KEY;
 
 		return (
 			<Html lang="ko">
