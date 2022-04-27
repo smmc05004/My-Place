@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import KakaoButton from '../../components/KakaoLoginBtn';
 import axiosRequest from '../api/api';
 
 const Wrapper = styled.div`
@@ -38,6 +39,8 @@ const Test = () => {
 			<p>test 페이지</p>
 
 			<p>{data?.word}</p>
+
+			<KakaoButton />
 		</Wrapper>
 	);
 };

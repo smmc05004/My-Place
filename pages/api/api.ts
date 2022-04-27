@@ -5,6 +5,10 @@ interface GetProps {
 	url: string;
 	contentType?: string;
 }
+interface PostProps {
+	url: string;
+	contentType?: string;
+}
 
 enum method {
 	get = 'get',
@@ -41,7 +45,9 @@ const axiosRequest = {
 		const result = await axiosInstance({
 			method: method.get,
 			url: url,
-			headers: { 'Content-Type': contentType },
+			headers: {
+				'Content-Type': contentType,
+			},
 		}).catch((error) => {
 			this.handleError(error);
 		});
@@ -49,12 +55,13 @@ const axiosRequest = {
 		return result;
 	},
 
-	// post: async (url: string) => {
-	// 	return await axios({
-	// 		method: method.post,
-	// 		url: url,
-	// 	});
-	// },
+	post: async ({ url, contentType = 'application/json' }: PostProps) => {
+		return await axios({
+			method: method.post,
+			url: url,
+			headers: { 'Content-Type': contentType },
+		});
+	},
 
 	// put: async (url: string) => {
 	// 	return await axios({
