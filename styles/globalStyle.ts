@@ -4,6 +4,13 @@ import reset from 'styled-reset';
 const GlobalStyle = createGlobalStyle`
   ${reset}
 
+  :root {
+    --color-base: '#F9EBC8';
+    --color-sub-base: '#FEFBE7';
+    --color-main: '#DAE5D0';
+    --color-border: '#A0BCC2';
+  }
+
   #__next, html, body {
     width: 100%;
     height: 100%;
