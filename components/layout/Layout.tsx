@@ -7,14 +7,30 @@ interface Props {
 	children: ReactElement;
 }
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+	.contents {
+		max-width: 1200px;
+		height: 100%;
+		margin: 0 auto;
+		padding: 0;
+
+		.inner {
+			width: 100%;
+			height: 100%;
+		}
+	}
+`;
 
 const Layout: React.FC<Props> = ({ children }) => {
 	return (
 		<Wrapper>
-			<Header />
-			{children}
-			<Footer />
+			<div className="contents">
+				<div className="inner">
+					<Header />
+					{children}
+					<Footer />
+				</div>
+			</div>
 		</Wrapper>
 	);
 };

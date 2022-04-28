@@ -1,15 +1,16 @@
 import styled from 'styled-components';
+import Fnb from './Fnb';
 
-const Wrapper = styled.footer``;
+const Wrapper = styled.footer`
+	width: 200px;
+	margin: 0 auto;
+	text-align: center;
+`;
 
 const Footer = () => {
 	return (
 		<Wrapper>
-			<ul>
-				<li>메뉴1</li>
-				<li>메뉴2</li>
-				<li>메뉴3</li>
-			</ul>
+			<Fnb />
 		</Wrapper>
 	);
 };
