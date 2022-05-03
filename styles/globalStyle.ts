@@ -5,10 +5,11 @@ const GlobalStyle = createGlobalStyle`
   ${reset}
 
   :root {
-    --color-base: '#F9EBC8';
-    --color-sub-base: '#FEFBE7';
-    --color-main: '#DAE5D0';
-    --color-border: '#A0BCC2';
+    --color-base: #F9EBC8;
+    --color-sub-base: #FEFBE7;
+    --color-main: #DAE5D0;
+    --color-border: #A0BCC2;
+    --color-font: #333;
   }
 
   #__next, html, body {
@@ -16,8 +17,9 @@ const GlobalStyle = createGlobalStyle`
     height: 100%;
   }
 
-  body: {
+  body {
     font-size: 14px;
+    
   }
 
   html, body, h1, h2, h3, h4, h5, h6, a, li, div, p, span {

@@ -11,7 +11,7 @@ const Fnb = () => {
 	const menus = useMemo(
 		() =>
 			menuList.map((menu) => {
-				return <FnbItem menu={menu} />;
+				return <FnbItem key={menu.id} menu={menu} />;
 			}),
 		[],
 	);

@@ -8,6 +8,8 @@ interface Props {
 }
 
 const Wrapper = styled.div`
+	background-color: var(--color-base);
+
 	.contents {
 		max-width: 1200px;
 		height: 100%;

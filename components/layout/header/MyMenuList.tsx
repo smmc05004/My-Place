@@ -1,5 +1,4 @@
-import Link from 'next/link';
-import { useMemo } from 'react';
+import { FC, useMemo } from 'react';
 import styled from 'styled-components';
 import myMenuList from '../constant/myMenuList';
 import MyMenuItem from './MyMenuItem';
@@ -12,11 +11,11 @@ const StyledList = styled.ul`
 	gap: 10px;
 `;
 
-const MyMenuList = () => {
+const MyMenuList: FC = () => {
 	const menus = useMemo(
 		() =>
 			myMenuList.map((menu) => {
-				return <MyMenuItem menu={menu} />;
+				return <MyMenuItem key={menu.id} menu={menu} />;
 			}),
 		[],
 	);
