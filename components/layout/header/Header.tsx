@@ -1,27 +1,16 @@
+import { FC } from 'react';
 import styled from 'styled-components';
+import Gnb from './Gnb';
 
 const Wrapper = styled.div`
 	width: 100%;
+	padding: 30px 0;
 `;
 
-const Header = () => {
+const Header: FC = () => {
 	return (
 		<Wrapper>
-			<nav>
-				<a>
-					<img src="" alt="홈 이미지" />
-				</a>
-				<ul>
-					<li>메뉴1</li>
-					<li>메뉴2</li>
-					<li>메뉴3</li>
-				</ul>
-
-				<ul>
-					<li>로그인</li>
-					<li>회원가입</li>
-				</ul>
-			</nav>
+			<Gnb />
 		</Wrapper>
 	);
 };
