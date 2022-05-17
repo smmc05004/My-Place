@@ -7,8 +7,6 @@ const getFoods = async () => {
 		url: '/api/food',
 	});
 
-	console.log('result: ', result);
-
 	return result;
 };
 
