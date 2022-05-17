@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { useMemo } from 'react';
 import styled from 'styled-components';
 import menuList from '../constant/menuLIst';
