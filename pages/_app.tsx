@@ -5,6 +5,8 @@ import Layout from '../components/layout/Layout';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { useState } from 'react';
+import { ThemeProvider } from 'styled-components';
+import theme from '../styles/theme';
 
 function MyApp({ Component, pageProps }: AppProps) {
 	const [queryClient] = useState(() => new QueryClient());
@@ -15,9 +17,11 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 			<QueryClientProvider client={queryClient}>
 				<Hydrate state={pageProps.dehydratedState}>
-					<Layout>
-						<Component {...pageProps} />
-					</Layout>
+					<ThemeProvider theme={theme}>
+						<Layout>
+							<Component {...pageProps} />
+						</Layout>
+					</ThemeProvider>
 				</Hydrate>
 				<ReactQueryDevtools />
 			</QueryClientProvider>
