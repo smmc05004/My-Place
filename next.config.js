@@ -5,6 +5,7 @@ const nextConfig = {
 	compiler: {
 		styledComponents: true,
 	},
+	include: ['global.d.ts', 'next-env.d.ts', '**/*.ts', '**/*.tsx'],
 };
 
 module.exports = nextConfig;

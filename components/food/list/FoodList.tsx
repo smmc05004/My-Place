@@ -1,11 +1,12 @@
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import FoodItem from './FoodItem';
 import styled from 'styled-components';
 interface FoodProps {
+	id: number;
 	name: string;
 	address: string;
 	category: number;
-	visitData: string;
+	visitDate: string;
 }
 
 interface Props {
@@ -22,9 +23,10 @@ const List = styled.ul`
 `;
 
 const FoodList: FC<Props> = ({ foodList }) => {
-	const foods = foodList.map((item, index) => (
-		<FoodItem key={index} item={item} />
-	));
+	const foods = useMemo(
+		() => foodList.map((item) => <FoodItem key={item.id} item={item} />),
+		[foodList],
+	);
 
 	return <List>{foods}</List>;
 };

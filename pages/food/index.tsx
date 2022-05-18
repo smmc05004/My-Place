@@ -4,8 +4,10 @@ import useFoods from '../../hooks/useFoods';
 
 const Food: NextPage = () => {
 	const { isLoading, isError, data } = useFoods();
+	// console.log('data: ', data);
 
 	if (isLoading) return <div>...loading</div>;
+
 	if (isError) return <div>...error</div>;
 
 	return (

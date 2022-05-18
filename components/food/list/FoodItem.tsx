@@ -1,11 +1,13 @@
 import Link from 'next/link';
 import { FC } from 'react';
 import styled from 'styled-components';
+
 interface FoodProps {
+	id: number;
 	name: string;
 	address: string;
 	category: number;
-	visitData: string;
+	visitDate: string;
 }
 
 interface Props {
@@ -45,17 +47,18 @@ const Item = styled.li`
 `;
 
 const FoodItem: FC<Props> = ({ item }) => {
+	// console.log('item: ', item);
 	return (
 		<Item>
 			<div className="item-inner">
-				<Link href="#">
+				<Link href={`/food/${item.id}`}>
 					<a>
 						<img src="/images/food.jpeg" alt="음식점 대표 사진" />
 					</a>
 				</Link>
 
 				<p>{item.name}</p>
-				<div>방문일자 {item.visitData}</div>
+				<div>방문일자: {item.visitDate}</div>
 			</div>
 		</Item>
 	);

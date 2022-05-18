@@ -9,6 +9,7 @@ declare global {
 
 const Map: React.FC = () => {
 	const kakaoMap = React.useRef<HTMLDivElement>(null);
+	console.log('kakaoMap: ', kakaoMap);
 
 	useEffect(() => {
 		if (kakaoMap && kakaoMap.current) {
@@ -60,6 +61,7 @@ const Map: React.FC = () => {
 			);
 		}
 	}, [kakaoMap]);
+
 	return <KakaomapComponent ref={kakaoMap} />;
 };
 
