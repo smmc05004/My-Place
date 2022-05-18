@@ -12,6 +12,7 @@ const StyledNav = styled.nav`
 const Gnb = () => {
 	return (
 		<StyledNav>
+			{/* <Home /> */}
 			<Home />
 
 			<MenuList />

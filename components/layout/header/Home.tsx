@@ -1,16 +1,26 @@
 import Link from 'next/link';
 import styled from 'styled-components';
+import Earth from './Earth';
+import Loader from './Loader';
 
-const StyledAnchor = styled.a`
-	width: calc((1200px - 800px) / 2);
+const Wrapper = styled.div`
+	width: 200px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
 `;
 
 const Home = () => {
 	return (
 		<Link href="/">
-			<StyledAnchor>
-				<img src="/icons/trip.png" alt="홈 이미지" />
-			</StyledAnchor>
+			<a>
+				<Wrapper>
+					<Loader />
+
+					<Earth />
+				</Wrapper>
+			</a>
 		</Link>
 	);
 };
