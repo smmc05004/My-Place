@@ -11,18 +11,57 @@ const Wrapper = styled.div`
 	.inner {
 		padding: 0 20px;
 
-		.represent-img {
-			border-radius: 5px;
-		}
+		.content-wrapper {
+			margin-top: 30px;
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-start;
 
-		p {
-		}
+			.represent-img {
+				width: 60%;
+				text-align: center;
 
-		.mask {
-			position: fixed;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
+				img {
+					max-width: 100%;
+					max-height: 400px;
+					border-radius: 5px;
+				}
+			}
+
+			.detail-contents {
+				width: calc(40% - 20px);
+
+				.btn-bundle {
+					width: 100%;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+
+					.map-btn {
+						padding: 5px;
+						border: none;
+						border-radius: 10px;
+						background-color: var(--color-border);
+						color: var(--color-sub-base);
+						cursor: pointer;
+					}
+
+					.picture-btn {
+						padding: 5px;
+						border: none;
+						border-radius: 10px;
+						background-color: var(--color-sub-base);
+						color: var(--color-border);
+						cursor: pointer;
+					}
+				}
+
+				p {
+					width: 100%;
+					height: 100%;
+					margin-top: 30px;
+				}
+			}
 		}
 	}
 `;
@@ -33,8 +72,11 @@ const Page_FoodDetail = () => {
 	const id = router.query.id as string;
 	const { isLoading, isError, data } = useFood({ id: Number(id) });
 
-	const toggleShow = () => {
+	const toggleShowMap = () => {
 		isShow(!show);
+	};
+	const toggleShowPicture = () => {
+		console.log('사진첩 열기');
 	};
 
 	if (isLoading) return <div>...loading</div>;
@@ -45,17 +87,35 @@ const Page_FoodDetail = () => {
 	return (
 		<Wrapper>
 			<div className="inner">
-				<Title name={detail?.name} category={detail?.category} />
+				<Title name={detail?.name} />
 
-				<div className="represent-img">
-					<img src="/images/hongs.jpeg" alt="대표이미지" />
+				<div className="content-wrapper">
+					<div className="represent-img">
+						<img src="/images/hongs.jpeg" alt="대표이미지" />
+					</div>
+
+					<div className="detail-contents">
+						<div className="btn-bundle">
+							<button className="map-btn" onClick={toggleShowMap}>
+								지도 보기
+							</button>
+
+							<button className="picture-btn" onClick={toggleShowPicture}>
+								사진첩 보기
+							</button>
+						</div>
+
+						<p>상세 설명</p>
+					</div>
 				</div>
 
-				<p>상세 설명</p>
-
-				<button onClick={toggleShow}>지도 보기</button>
-
-				{show && <DetailMap name={detail?.name} address={detail?.address} />}
+				{show && (
+					<DetailMap
+						name={detail?.name}
+						address={detail?.address}
+						handleClick={toggleShowMap}
+					/>
+				)}
 			</div>
 		</Wrapper>
 	);

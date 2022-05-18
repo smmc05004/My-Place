@@ -4,20 +4,21 @@ import Category from '../../../constants/category';
 
 interface Props {
 	name: string;
-	category: 'complete' | 'will';
 }
 
 const Wrapper = styled.div`
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+	text-align: center;
+
+	h1 {
+		color: var(--color-font);
+		font-size: 25px;
+	}
 `;
 
-const Title: FC<Props> = ({ name, category }) => {
+const Title: FC<Props> = ({ name }) => {
 	return (
 		<Wrapper>
 			<h1>{name}</h1>
-			<div>{Category[category]}</div>
 		</Wrapper>
 	);
 };

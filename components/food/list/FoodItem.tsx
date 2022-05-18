@@ -48,7 +48,6 @@ const Item = styled.li`
 `;
 
 const FoodItem: FC<Props> = ({ item }) => {
-	// console.log('item: ', item);
 	return (
 		<Item>
 			<div className="item-inner">
