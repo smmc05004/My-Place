@@ -27,6 +27,7 @@ const Item = styled.li`
 
 	&:hover {
 		top: -7px;
+		box-shadow: inset 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff;
 	}
 
 	.item-inner {
