@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Title from '../../components/food/detail/Title';
 import { useState } from 'react';
 import DetailMap from '../../components/food/detail/DetailMap';
+import CustomSwiper from '../../components/swiper/CustomSwiper';
 
 const Wrapper = styled.div`
 	margin-top: 50px;
@@ -68,6 +69,8 @@ const Wrapper = styled.div`
 
 const Page_FoodDetail = () => {
 	const [show, isShow] = useState(false);
+	const [showPicture, isShowPicture] = useState(false);
+
 	const router = useRouter();
 	const id = router.query.id as string;
 	const { isLoading, isError, data } = useFood({ id: Number(id) });
@@ -75,8 +78,13 @@ const Page_FoodDetail = () => {
 	const toggleShowMap = () => {
 		isShow(!show);
 	};
+
+	const toggleShowPictures = () => {
+		isShowPicture(!isShowPicture);
+	};
 	const toggleShowPicture = () => {
 		console.log('사진첩 열기');
+		isShowPicture(true);
 	};
 
 	if (isLoading) return <div>...loading</div>;
@@ -116,6 +124,8 @@ const Page_FoodDetail = () => {
 						handleClick={toggleShowMap}
 					/>
 				)}
+
+				{showPicture && <CustomSwiper handleClick={toggleShowPictures} />}
 			</div>
 		</Wrapper>
 	);
