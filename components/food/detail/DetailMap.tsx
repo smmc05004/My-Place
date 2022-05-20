@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import styled from 'styled-components';
 import Map from '../../map/Map';
+import Mask from '../../mask/Mask';
 
 interface Props {
 	name: string;
@@ -9,48 +10,32 @@ interface Props {
 }
 
 const Wrapper = styled.div`
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 99;
 
-	.mask {
-		position: absolute;
+	.btn-wrapper {
+		position: relative;
 		width: 100%;
-		height: 100%;
-		background: rgba(0, 0, 0, 0.4);
-		z-index: 9;
-	}
 
-	.map-container {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		z-index: 99;
+		.close-btn {
+			width: 20px;
+			height: 20px;
+			position: absolute;
+			top: -10px;
+			right: -10px;
+			z-index: 99;
+			background-image: url('/icons/close.png');
+			background-size: 20px;
+			background-color: #fff;
+			border: none;
+			border-radius: 50%;
+			cursor: pointer;
 
-		.btn-wrapper {
-			position: relative;
-			width: 100%;
-
-			.close-btn {
-				width: 20px;
-				height: 20px;
-				position: absolute;
-				top: -10px;
-				right: -10px;
-				z-index: 99;
-				background-image: url('/icons/close.png');
-				background-size: 20px;
-				background-color: #fff;
-				border: none;
-				border-radius: 50%;
-				cursor: pointer;
-
-				&:hover {
-					transform: scale(1.2);
-				}
+			&:hover {
+				transform: scale(1.2);
 			}
 		}
 	}
@@ -58,16 +43,14 @@ const Wrapper = styled.div`
 
 const DetailMap: FC<Props> = ({ name, address, handleClick }) => {
 	return (
-		<Wrapper>
-			<div className="mask" onClick={handleClick} />
-
-			<div className="map-container">
+		<Mask handleClick={handleClick}>
+			<Wrapper>
 				<div className="btn-wrapper">
 					<button className="close-btn" onClick={handleClick}></button>
 				</div>
 				<Map name={name} address={address} />
-			</div>
-		</Wrapper>
+			</Wrapper>
+		</Mask>
 	);
 };
 

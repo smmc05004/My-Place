@@ -5,35 +5,43 @@ import styled from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Pagination } from 'swiper';
 import { FC } from 'react';
+import Mask from '../mask/Mask';
 
 interface Props {
 	handleClick: () => void;
 }
 
-const Wrapper = styled.section`
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
+const Wrapper = styled.div`
+	position: relative;
+	top: 50%;
+	transform: translate(0, -50%);
+	z-index: 99;
 
-	.mask {
-		position: absolute;
+	.close-btn-wrapper {
+		position: relative;
 		width: 100%;
-		height: 100%;
-		background: rgba(0, 0, 0, 0.4);
-		z-index: 9;
+
+		.close-btn {
+			width: 20px;
+			height: 20px;
+			position: absolute;
+			top: -10px;
+			right: 0;
+			z-index: 99;
+			background-image: url('/icons/close.png');
+			background-size: 20px;
+			background-color: #fff;
+			border: none;
+			border-radius: 50%;
+			cursor: pointer;
+
+			&:hover {
+				transform: scale(1.2);
+			}
+		}
 	}
 
 	.swiper-container {
-		width: 100%;
-		position: relative;
-		top: 50%;
-		transform: translate(0, -50%);
-		z-index: 99;
-		width: 100%;
-
 		.swiper-slide {
 			background-position: center;
 			background-size: cover;
@@ -70,49 +78,53 @@ const Wrapper = styled.section`
 
 const CustomSwiper: FC<Props> = ({ handleClick }) => {
 	return (
-		<Wrapper>
-			<div className="mask" onClick={handleClick} />
+		<Mask handleClick={handleClick}>
+			<Wrapper>
+				<div className="close-btn-wrapper">
+					<button className="close-btn" onClick={handleClick} />
+				</div>
 
-			<Swiper
-				effect="coverflow"
-				grabCursor={true}
-				centeredSlides={true}
-				slidesPerView="auto"
-				coverflowEffect={{
-					rotate: 0,
-					stretch: 0,
-					depth: 100,
-					modifier: 2,
-					slideShadows: true,
-				}}
-				pagination={true}
-				modules={[EffectCoverflow, Pagination]}
-				className="swiper-container"
-				loop={true}
-			>
-				<SwiperSlide className="swiper-slide">
-					<div className="testimonialBox">
-						<h3>slide 1</h3>
-						<img src="/images/agumon.jpeg" alt="카드 이미지" />
-						<p>이미지 설명1</p>
-					</div>
-				</SwiperSlide>
-				<SwiperSlide className="swiper-slide">
-					<div className="testimonialBox">
-						<h3>slide 2</h3>
-						<img src="/images/agumon.jpeg" alt="카드 이미지" />
-						<p>이미지 설명2</p>
-					</div>
-				</SwiperSlide>
-				<SwiperSlide className="swiper-slide">
-					<div className="testimonialBox">
-						<h3>slide 3</h3>
-						<img src="/images/agumon.jpeg" alt="카드 이미지" />
-						<p>이미지 설명3</p>
-					</div>
-				</SwiperSlide>
-			</Swiper>
-		</Wrapper>
+				<Swiper
+					effect="coverflow"
+					grabCursor={true}
+					centeredSlides={true}
+					slidesPerView="auto"
+					coverflowEffect={{
+						rotate: 0,
+						stretch: 0,
+						depth: 100,
+						modifier: 2,
+						slideShadows: true,
+					}}
+					pagination={true}
+					modules={[EffectCoverflow, Pagination]}
+					className="swiper-container"
+					loop={true}
+				>
+					<SwiperSlide className="swiper-slide">
+						<div className="testimonialBox">
+							<h3>slide 1</h3>
+							<img src="/images/agumon.jpeg" alt="카드 이미지" />
+							<p>이미지 설명1</p>
+						</div>
+					</SwiperSlide>
+					<SwiperSlide className="swiper-slide">
+						<div className="testimonialBox">
+							<h3>slide 2</h3>
+							<img src="/images/agumon.jpeg" alt="카드 이미지" />
+							<p>이미지 설명2</p>
+						</div>
+					</SwiperSlide>
+					<SwiperSlide className="swiper-slide">
+						<div className="testimonialBox">
+							<h3>slide 3</h3>
+							<img src="/images/agumon.jpeg" alt="카드 이미지" />
+							<p>이미지 설명3</p>
+						</div>
+					</SwiperSlide>
+				</Swiper>
+			</Wrapper>
+		</Mask>
 	);
 };
 
