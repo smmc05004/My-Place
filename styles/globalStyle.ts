@@ -10,6 +10,7 @@ const GlobalStyle = createGlobalStyle`
     --color-main: #DAE5D0;
     --color-border: #A0BCC2;
     --color-font: #333;
+    --color-main-font: #247881;
   }
 
   #__next, html, body {
