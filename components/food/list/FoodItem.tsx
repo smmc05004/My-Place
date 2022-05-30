@@ -58,7 +58,7 @@ const FoodItem: FC<Props> = ({ item }) => {
 				</Link>
 
 				<p>{item.name}</p>
-				<div>방문일자: {item.visitDate}</div>
+				<div>방문일자: {item?.visitDate?.substring(0, 10)}</div>
 			</div>
 		</Item>
 	);
