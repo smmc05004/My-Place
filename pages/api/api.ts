@@ -8,6 +8,7 @@ interface GetProps {
 interface PostProps {
 	url: string;
 	contentType?: string;
+	data: any;
 }
 
 enum method {
@@ -18,7 +19,7 @@ enum method {
 }
 
 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-
+console.log('baseUrl: ', baseUrl);
 const axiosInstance = axios.create({
 	baseURL: baseUrl,
 	timeout: 5000,
@@ -55,10 +56,15 @@ const axiosRequest = {
 		return result;
 	},
 
-	post: async ({ url, contentType = 'application/json' }: PostProps) => {
-		return await axios({
+	post: async function ({
+		url,
+		contentType = 'application/json',
+		data,
+	}: PostProps) {
+		return await axiosInstance({
 			method: method.post,
 			url: url,
+			data: data,
 			headers: { 'Content-Type': contentType },
 		});
 	},

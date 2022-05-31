@@ -1,76 +1,130 @@
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import PostCode from '../../components/daumPostCode/PostCode';
+import styled from 'styled-components';
+import axios from 'axios';
+import mutationFood from '../../hooks/mutationFood';
+
+const Wrapper = styled.div`
+	width: 100%;
+
+	form {
+		width: 100%;
+	}
+`;
+const initValues = {
+	place: '',
+	category: 0,
+	address: '',
+	subAddress: '',
+	description: '',
+};
 
 const Register = () => {
-	const attachRef = useRef<HTMLInputElement>(null);
+	const [showPostPopup, isShowPostPopup] = useState(false);
+	const [values, setValues] = useState(initValues);
+	const { mutate } = mutationFood();
 
-	const [pictures, setPictures] = useState<FileList | null>(null);
-
-	const handleClick = () => {
-		if (attachRef.current) {
-			attachRef.current.click();
-		}
-	};
-	console.log('pictures: ', pictures);
-	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-		const { files } = event.target;
-		console.log('files: ', files);
-
-		if (files && files?.length > 0) {
-			for (let i = 0; i < files?.length; i++) {}
-			setPictures(files);
-		}
+	const closePopup = () => {
+		isShowPostPopup(false);
 	};
 
-	// const fileList = pictures.
+	const openPopup = () => {
+		isShowPostPopup(true);
+	};
+
+	const handleAddress = (address: string) => {
+		setValues({
+			...values,
+			address,
+		});
+	};
+
+	const handleChange = (
+		e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+	) => {
+		const { name, value } = e.target;
+		setValues({
+			...values,
+			[name]: value,
+		});
+	};
+
+	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		console.log('values: ', values);
+		mutate({ data: values });
+	};
+
 	return (
-		<div>
-			<form>
+		<Wrapper>
+			<form onSubmit={handleSubmit}>
 				<div>
-					<label htmlFor="category">카테고리</label>
-					<select>
+					<label htmlFor="places">장소명</label>
+					<input
+						id="places"
+						name="place"
+						type="text"
+						onChange={handleChange}
+						value={values.place}
+					/>
+				</div>
+
+				<div>
+					<label htmlFor="categories">카테고리</label>
+					<select
+						id="categories"
+						name="category"
+						onChange={handleChange}
+						value={values.category}
+					>
 						<option value={0}>방문지</option>
 						<option value={1}>방문 예정지</option>
 					</select>
 				</div>
 
 				<div>
-					<label htmlFor="place-name">장소명</label>
-					<input id="place-name" type="text" />
-				</div>
-
-				<div>
-					<label htmlFor="description">설명</label>
-					<input id="description" type="text" />
-				</div>
-
-				<div>
-					<label htmlFor="attachFile">첨부파일</label>
-					<button type="button" onClick={handleClick}>
-						첨부파일 버튼
-					</button>
-
+					<label htmlFor="addresses">주소</label>
 					<input
-						id="attachFile"
-						ref={attachRef}
-						type="file"
-						accept="image/*"
-						multiple
+						id="addressese"
+						name="address"
+						value={values.address}
 						onChange={handleChange}
-						style={{ display: 'none' }}
+						disabled
 					/>
+					<button type="button" onClick={openPopup}>
+						주소검색
+					</button>
+				</div>
 
-					<p>미리보기</p>
+				{showPostPopup && (
+					<PostCode setAddress={handleAddress} closePopup={closePopup} />
+				)}
 
-					{/* {
-            pictures && (
-              pictures.map(() => {
-                return 
-              })
-            )
-          } */}
+				<div>
+					<label htmlFor="subAddresses">상세 주소</label>
+					<input
+						id="subAddresses"
+						name="subAddress"
+						onChange={handleChange}
+						value={values.subAddress}
+					/>
+				</div>
+
+				<div>
+					<label htmlFor="descriptions">설명</label>
+					<textarea
+						id="descriptions"
+						name="description"
+						onChange={handleChange}
+						value={values.description}
+					></textarea>
+				</div>
+
+				<div>
+					<button type="submit">저장</button>
 				</div>
 			</form>
-		</div>
+		</Wrapper>
 	);
 };
 
