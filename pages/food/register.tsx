@@ -1,5 +1,4 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import PostCode from '../../components/daumPostCode/PostCode';
 import styled from 'styled-components';
 import mutationFood from '../../hooks/mutationFood';
 
@@ -20,23 +19,18 @@ const initValues = {
 };
 
 const Register = () => {
-	const [showPostPopup, isShowPostPopup] = useState(false);
 	const [values, setValues] = useState(initValues);
 	const { mutate } = mutationFood();
 
-	const closePopup = () => {
-		isShowPostPopup(false);
-	};
-
 	const openPopup = () => {
-		isShowPostPopup(true);
-	};
-
-	const handleAddress = (mainAddress: string) => {
-		setValues({
-			...values,
-			mainAddress,
-		});
+		new window.daum.Postcode({
+			oncomplete: function (result: any) {
+				setValues({
+					...values,
+					mainAddress: result.address,
+				});
+			},
+		}).open();
 	};
 
 	const handleChange = (
@@ -107,10 +101,6 @@ const Register = () => {
 						주소검색
 					</button>
 				</div>
-
-				{showPostPopup && (
-					<PostCode setAddress={handleAddress} closePopup={closePopup} />
-				)}
 
 				<div>
 					<label htmlFor="subAddresses">상세 주소</label>
