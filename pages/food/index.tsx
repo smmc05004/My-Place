@@ -1,8 +1,8 @@
 import { NextPage } from 'next';
-import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import RegisterBtn from '../../components/button/RegisterBtn';
 import FoodList from '../../components/food/list/FoodList';
+import Loading from '../../components/loading/Loading';
 import useFoods from '../../hooks/useFoods';
 
 const Wrapper = styled.div`
@@ -15,9 +15,8 @@ const Wrapper = styled.div`
 
 const Food: NextPage = () => {
 	const { isLoading, isError, data } = useFoods();
-	// console.log('data: ', data);
 
-	if (isLoading) return <div>...loading</div>;
+	if (isLoading) return <Loading />;
 
 	if (isError) return <div>...error</div>;
 
