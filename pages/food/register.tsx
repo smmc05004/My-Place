@@ -45,13 +45,26 @@ const Register = () => {
 		const { name, value } = e.target;
 		setValues({
 			...values,
-			[name]: value,
+			[name]: name === 'category' ? Number(value) : value,
 		});
 	};
 
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		mutate({ data: values });
+		mutate(
+			{ data: values },
+			{
+				onSuccess: (result) => {
+					if (result.status === 200) {
+						alert('등록 되었습니다.');
+					}
+				},
+				onError: (error) => {
+					console.log('error: ', error);
+					alert('등록 중 에러가 발생했습니다.');
+				},
+			},
+		);
 	};
 
 	return (
