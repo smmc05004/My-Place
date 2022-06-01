@@ -5,16 +5,22 @@ export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse,
 ) {
-	// console.log('req: ', req);
-
 	if (req.method === 'GET') {
 		const result = await apiRequest.get({ url: '/food' });
 		res.status(200).json(result?.data);
 	}
 	if (req.method === 'POST') {
 		const data = req.body.data;
-		const result = await apiRequest.post({ url: '/food', data });
-		console.log('result: ', result);
-		res.status(200).json(result?.data);
+
+		if (!data) {
+			res.status(501).json({ status: 501, message: 'No data' });
+		}
+
+		try {
+			const result = await apiRequest.post({ url: '/food', data });
+			res.status(200).json(result?.data);
+		} catch (error) {
+			console.log('error: ', error);
+		}
 	}
 }

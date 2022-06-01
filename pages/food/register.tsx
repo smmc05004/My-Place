@@ -1,7 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import PostCode from '../../components/daumPostCode/PostCode';
 import styled from 'styled-components';
-import axios from 'axios';
 import mutationFood from '../../hooks/mutationFood';
 
 const Wrapper = styled.div`
@@ -12,11 +11,12 @@ const Wrapper = styled.div`
 	}
 `;
 const initValues = {
-	place: '',
+	name: '',
 	category: 0,
-	address: '',
+	mainAddress: '',
 	subAddress: '',
 	description: '',
+	writerId: 1,
 };
 
 const Register = () => {
@@ -32,10 +32,10 @@ const Register = () => {
 		isShowPostPopup(true);
 	};
 
-	const handleAddress = (address: string) => {
+	const handleAddress = (mainAddress: string) => {
 		setValues({
 			...values,
-			address,
+			mainAddress,
 		});
 	};
 
@@ -51,7 +51,6 @@ const Register = () => {
 
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log('values: ', values);
 		mutate({ data: values });
 	};
 
@@ -59,13 +58,13 @@ const Register = () => {
 		<Wrapper>
 			<form onSubmit={handleSubmit}>
 				<div>
-					<label htmlFor="places">장소명</label>
+					<label htmlFor="names">장소명</label>
 					<input
-						id="places"
-						name="place"
+						id="names"
+						name="name"
 						type="text"
 						onChange={handleChange}
-						value={values.place}
+						value={values.name}
 					/>
 				</div>
 
@@ -83,11 +82,11 @@ const Register = () => {
 				</div>
 
 				<div>
-					<label htmlFor="addresses">주소</label>
+					<label htmlFor="mainAddresses">주소</label>
 					<input
-						id="addressese"
-						name="address"
-						value={values.address}
+						id="mainAddresses"
+						name="mainAddress"
+						value={values.mainAddress}
 						onChange={handleChange}
 						disabled
 					/>

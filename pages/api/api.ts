@@ -19,7 +19,6 @@ enum method {
 }
 
 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-console.log('baseUrl: ', baseUrl);
 const axiosInstance = axios.create({
 	baseURL: baseUrl,
 	timeout: 5000,
