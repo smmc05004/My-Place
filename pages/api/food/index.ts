@@ -5,8 +5,9 @@ export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse,
 ) {
+	const { category } = req.query;
 	if (req.method === 'GET') {
-		const result = await apiRequest.get({ url: '/food' });
+		const result = await apiRequest.get({ url: `/food?category=${category}` });
 		res.status(200).json(result?.data);
 	}
 	if (req.method === 'POST') {

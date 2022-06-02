@@ -24,7 +24,7 @@ const List = styled.ul`
 
 const FoodList: FC<Props> = ({ foodList }) => {
 	const foods = useMemo(
-		() => foodList.map((item) => <FoodItem key={item.id} item={item} />),
+		() => foodList?.map((item) => <FoodItem key={item.id} item={item} />),
 		[foodList],
 	);
 

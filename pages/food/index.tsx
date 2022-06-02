@@ -1,4 +1,6 @@
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
+import { ChangeEvent } from 'react';
 import styled from 'styled-components';
 import RegisterBtn from '../../components/button/RegisterBtn';
 import FoodList from '../../components/food/list/FoodList';
@@ -13,8 +15,25 @@ const Wrapper = styled.div`
 	}
 `;
 
+const setInitValue = (routerQuery: any) => {
+	const { category } = routerQuery;
+
+	return {
+		category: Number(category) | 0,
+	};
+};
+
 const Food: NextPage = () => {
-	const { isLoading, isError, data } = useFoods();
+	const router = useRouter();
+	const initValue = setInitValue(router.query);
+
+	const { isLoading, isError, data } = useFoods({
+		category: initValue.category,
+	});
+
+	const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
+		router.push(`/food?category=${e.target.value}`);
+	};
 
 	if (isLoading) return <Loading />;
 
@@ -28,6 +47,11 @@ const Food: NextPage = () => {
 				<span>total: {data?.data.total}개</span>
 				<RegisterBtn url="/food/register" />
 			</div>
+
+			<select onChange={handleChange} value={initValue.category}>
+				<option value={0}>방문지</option>
+				<option value={1}>방문 예정지</option>
+			</select>
 
 			<FoodList foodList={data?.data.data} />
 		</Wrapper>
