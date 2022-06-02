@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import RegisterBtn from '../../components/button/RegisterBtn';
 import FoodList from '../../components/food/list/FoodList';
 import Loading from '../../components/loading/Loading';
+import Pagination from '../../components/pagination/Pagination';
 import useFoods from '../../hooks/useFoods';
 
 const Wrapper = styled.div`
@@ -54,6 +55,13 @@ const Food: NextPage = () => {
 			</select>
 
 			<FoodList foodList={data?.data.data} />
+
+			<Pagination
+				totalCnt={data?.data.total}
+				curPageNum={2}
+				rowSize={10}
+				blockSize={10}
+			/>
 		</Wrapper>
 	);
 };
