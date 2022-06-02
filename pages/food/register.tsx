@@ -1,6 +1,16 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import styled from 'styled-components';
 import mutationFood from '../../hooks/mutationFood';
+import { format } from 'date-fns';
+interface InitValuesProps {
+	name: string;
+	category: 0 | 1;
+	mainAddress: string;
+	subAddress: string;
+	description: string;
+	visitDate: string;
+	writerId: 1;
+}
 
 const Wrapper = styled.div`
 	width: 100%;
@@ -9,17 +19,19 @@ const Wrapper = styled.div`
 		width: 100%;
 	}
 `;
-const initValues = {
+
+const initValues: InitValuesProps = {
 	name: '',
 	category: 0,
 	mainAddress: '',
 	subAddress: '',
 	description: '',
+	visitDate: format(new Date(), 'yyyy-MM-dd'),
 	writerId: 1,
 };
 
 const Register = () => {
-	const [values, setValues] = useState(initValues);
+	const [values, setValues] = useState<InitValuesProps>(initValues);
 	const { mutate } = mutationFood();
 
 	const openPopup = () => {
@@ -37,6 +49,7 @@ const Register = () => {
 		e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
 	) => {
 		const { name, value } = e.target;
+
 		setValues({
 			...values,
 			[name]: name === 'category' ? Number(value) : value,
@@ -46,7 +59,15 @@ const Register = () => {
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		mutate(
-			{ data: values },
+			{
+				data: {
+					...values,
+					visitDate:
+						values.category === 1
+							? null
+							: new Date(values.visitDate).toISOString(),
+				},
+			},
 			{
 				onSuccess: (result) => {
 					if (result.status === 200) {
@@ -121,6 +142,19 @@ const Register = () => {
 						value={values.description}
 					></textarea>
 				</div>
+
+				{values.category === 0 && (
+					<div>
+						<label htmlFor="visitDates">방문일자</label>
+						<input
+							id="visitDates"
+							name="visitDate"
+							type="date"
+							onChange={handleChange}
+							value={values.visitDate}
+						/>
+					</div>
+				)}
 
 				<div>
 					<button type="submit">저장</button>
