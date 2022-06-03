@@ -63,7 +63,7 @@ const Pagination = ({
 		}
 
 		setPageList(pageArr);
-	}, [curPageNum, rowSize, blockSize]);
+	}, [totalCnt, curPageNum, rowSize, blockSize]);
 
 	return (
 		<List>

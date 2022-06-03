@@ -40,6 +40,7 @@ const Food: NextPage = () => {
 		const qs = convertObjToQueryString({
 			...router.query,
 			category: e.target.value,
+			page: 1,
 		});
 
 		router.push(`/food${qs}`);
