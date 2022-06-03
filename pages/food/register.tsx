@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import mutationFood from '../../hooks/mutationFood';
 import { format } from 'date-fns';
@@ -32,6 +32,10 @@ const initValues: InitValuesProps = {
 
 const Register = () => {
 	const [values, setValues] = useState<InitValuesProps>(initValues);
+	const [attachList, setAttachList] = useState<File[]>([]);
+
+	const fileRef = useRef<HTMLInputElement>(null);
+
 	const { mutate } = mutationFood();
 
 	const openPopup = () => {
@@ -56,6 +60,53 @@ const Register = () => {
 		});
 	};
 
+	const handleTriggerClick = () => {
+		if (fileRef?.current) {
+			fileRef.current.click();
+		}
+	};
+
+	const handleChangeAttach = (e: ChangeEvent<HTMLInputElement>) => {
+		const files = e.target.files;
+
+		if (!files) {
+			alert('파일을 추가해 주세요');
+			return;
+		}
+
+		const fLength = files?.length;
+		if (fLength < 0) {
+			alert('파일을 추가해 주세요');
+			return;
+		}
+
+		setAttachList(Array.from(attachList).concat(Array.from(files)));
+	};
+
+	console.log('attachList: ', attachList);
+
+	const handleDeleteAttach = (num: number) => {
+		attachList.splice(num, 1);
+		const newArr = attachList;
+		console.log('attachList: ', attachList);
+
+		setAttachList(newArr);
+	};
+
+	const attList = useMemo(
+		() =>
+			attachList.map((attach, index) => {
+				return (
+					<li key={attach.name}>
+						{attach.name}
+						<button type="button" onClick={() => handleDeleteAttach(index)}>
+							삭제
+						</button>
+					</li>
+				);
+			}),
+		[attachList],
+	);
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		mutate(
@@ -142,6 +193,22 @@ const Register = () => {
 						value={values.description}
 					></textarea>
 				</div>
+
+				<div>
+					<button type="button" onClick={handleTriggerClick}>
+						파일 첨부
+					</button>
+
+					<input
+						type="file"
+						multiple
+						ref={fileRef}
+						style={{ display: 'none' }}
+						onChange={handleChangeAttach}
+					/>
+				</div>
+
+				{attachList.length > 0 && <ul>{attList}</ul>}
 
 				{values.category === 0 && (
 					<div>
