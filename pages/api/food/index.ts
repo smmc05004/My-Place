@@ -1,13 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { convertObjToQueryString } from '../../../utils/qs';
 import apiRequest from '../api';
 
 export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse,
 ) {
-	const { category } = req.query;
 	if (req.method === 'GET') {
-		const result = await apiRequest.get({ url: `/food?category=${category}` });
+		const qs = convertObjToQueryString(req.query);
+		const result = await apiRequest.get({
+			url: `/food${qs}`,
+		});
+
 		res.status(200).json(result?.data);
 	}
 	if (req.method === 'POST') {

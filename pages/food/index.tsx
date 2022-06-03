@@ -7,6 +7,7 @@ import FoodList from '../../components/food/list/FoodList';
 import Loading from '../../components/loading/Loading';
 import Pagination from '../../components/pagination/Pagination';
 import useFoods from '../../hooks/useFoods';
+import { convertObjToQueryString } from '../../utils/qs';
 
 const Wrapper = styled.div`
 	.row-wrapper {
@@ -17,10 +18,11 @@ const Wrapper = styled.div`
 `;
 
 const setInitValue = (routerQuery: any) => {
-	const { category } = routerQuery;
+	const { category, page } = routerQuery;
 
 	return {
-		category: Number(category) | 0,
+		category: Number(category) || 0,
+		page: Number(page) || 1,
 	};
 };
 
@@ -30,10 +32,27 @@ const Food: NextPage = () => {
 
 	const { isLoading, isError, data } = useFoods({
 		category: initValue.category,
+		page: initValue.page,
 	});
 
+	// 카테고리 change 이벤트
 	const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-		router.push(`/food?category=${e.target.value}`);
+		const qs = convertObjToQueryString({
+			...router.query,
+			category: e.target.value,
+		});
+
+		router.push(`/food${qs}`);
+	};
+
+	// 페이지 번호 click 이벤트
+	const handleClickNum = (page: number) => {
+		const qs = convertObjToQueryString({
+			...router.query,
+			page,
+		});
+
+		router.push(`/food${qs}`);
 	};
 
 	if (isLoading) return <Loading />;
@@ -58,9 +77,10 @@ const Food: NextPage = () => {
 
 			<Pagination
 				totalCnt={data?.data.total}
-				curPageNum={2}
+				curPageNum={initValue.page}
 				rowSize={10}
 				blockSize={10}
+				handleClickNum={handleClickNum}
 			/>
 		</Wrapper>
 	);

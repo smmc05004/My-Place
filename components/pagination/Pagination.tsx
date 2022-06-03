@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import NextButton from './NextButton';
 import PageItem from './PageItem';
@@ -9,6 +9,7 @@ interface Props {
 	curPageNum: number;
 	rowSize: number;
 	blockSize: number;
+	handleClickNum: (num: number) => void;
 }
 
 const List = styled.ul`
@@ -22,6 +23,7 @@ const Pagination = ({
 	curPageNum = 1,
 	rowSize = 10,
 	blockSize = 10,
+	handleClickNum,
 }: Props) => {
 	const [value, setValue] = useState({
 		totalPage: 0,
@@ -31,15 +33,16 @@ const Pagination = ({
 
 	const [pageList, setPageList] = useState<number[]>([]);
 
-	const list = useMemo(
-		() =>
-			pageList.map((item, index) => {
-				return (
-					<PageItem key={index} num={item} isActive={item === curPageNum} />
-				);
-			}),
-		[pageList],
-	);
+	const list = pageList.map((item, index) => {
+		return (
+			<PageItem
+				key={index}
+				num={item}
+				isActive={item === curPageNum}
+				handleClick={handleClickNum}
+			/>
+		);
+	});
 
 	useEffect(() => {
 		const pageArr = [];
