@@ -118,6 +118,7 @@ const Register = () => {
 							? null
 							: new Date(values.visitDate).toISOString(),
 				},
+				attachList,
 			},
 			{
 				onSuccess: (result) => {
