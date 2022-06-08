@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import mutationFood from '../../hooks/mutationFood';
 import { format } from 'date-fns';
+import { upload } from '../../hooks/file/mutationFile';
 interface InitValuesProps {
 	name: string;
 	category: 0 | 1;
@@ -83,12 +84,12 @@ const Register = () => {
 		setAttachList(Array.from(attachList).concat(Array.from(files)));
 	};
 
-	console.log('attachList: ', attachList);
+	// console.log('attachList: ', attachList);
 
 	const handleDeleteAttach = (num: number) => {
 		attachList.splice(num, 1);
 		const newArr = attachList;
-		console.log('attachList: ', attachList);
+		// console.log('attachList: ', attachList);
 
 		setAttachList(newArr);
 	};
@@ -107,19 +108,29 @@ const Register = () => {
 			}),
 		[attachList],
 	);
-	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+
+	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		mutate(
-			{
-				data: {
-					...values,
-					visitDate:
-						values.category === 1
-							? null
-							: new Date(values.visitDate).toISOString(),
+
+		let attachNameList: any[] = [];
+
+		if (attachList.length > 0) {
+			attachNameList = await upload({ attachList, type: 'food' });
+		}
+
+		const data = {
+			...values,
+			visitDate:
+				values.category === 1 ? null : new Date(values.visitDate).toISOString(),
+			...(attachNameList.length > 0 && {
+				attach: {
+					create: attachNameList,
 				},
-				attachList,
-			},
+			}),
+		};
+
+		mutate(
+			{ data },
 			{
 				onSuccess: (result) => {
 					if (result.status === 200) {
