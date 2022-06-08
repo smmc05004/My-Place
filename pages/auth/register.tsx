@@ -1,14 +1,13 @@
-import type { NextPage } from 'next';
 import styled from 'styled-components';
 
 const Wrapper = styled.div``;
 
-const Home: NextPage = () => {
+const Register = () => {
 	return (
 		<Wrapper>
-			<p>메인 내용</p>
+			<p>회원가입 페이지</p>
 		</Wrapper>
 	);
 };
 
-export default Home;
+export default Register;
