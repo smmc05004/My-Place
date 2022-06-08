@@ -2,7 +2,8 @@ import { ChangeEvent, FormEvent, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import mutationFood from '../../hooks/mutationFood';
 import { format } from 'date-fns';
-import { upload } from '../../hooks/file/mutationFile';
+import mutationFile from '../../hooks/file/mutationFile';
+import { useRouter } from 'next/router';
 interface InitValuesProps {
 	name: string;
 	category: 0 | 1;
@@ -32,12 +33,14 @@ const initValues: InitValuesProps = {
 };
 
 const Register = () => {
+	const router = useRouter();
 	const [values, setValues] = useState<InitValuesProps>(initValues);
 	const [attachList, setAttachList] = useState<File[]>([]);
 
 	const fileRef = useRef<HTMLInputElement>(null);
 
-	const { mutate } = mutationFood();
+	const { mutateAsync: fileMutateAsync } = mutationFile();
+	const { mutateAsync: foodMutateAsync } = mutationFood();
 
 	const openPopup = () => {
 		new window.daum.Postcode({
@@ -84,12 +87,9 @@ const Register = () => {
 		setAttachList(Array.from(attachList).concat(Array.from(files)));
 	};
 
-	// console.log('attachList: ', attachList);
-
 	const handleDeleteAttach = (num: number) => {
 		attachList.splice(num, 1);
 		const newArr = attachList;
-		// console.log('attachList: ', attachList);
 
 		setAttachList(newArr);
 	};
@@ -109,16 +109,8 @@ const Register = () => {
 		[attachList],
 	);
 
-	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-
-		let attachNameList: any[] = [];
-
-		if (attachList.length > 0) {
-			attachNameList = await upload({ attachList, type: 'food' });
-		}
-
-		const data = {
+	const setFoodMutateObj = (attachNameList: any[]) => {
+		return {
 			...values,
 			visitDate:
 				values.category === 1 ? null : new Date(values.visitDate).toISOString(),
@@ -128,21 +120,41 @@ const Register = () => {
 				},
 			}),
 		};
+	};
 
-		mutate(
-			{ data },
-			{
-				onSuccess: (result) => {
-					if (result.status === 200) {
-						alert('등록 되었습니다.');
-					}
-				},
-				onError: (error) => {
-					console.log('error: ', error);
-					alert('등록 중 에러가 발생했습니다.');
-				},
-			},
-		);
+	const mutateFiles = async () => {
+		let attachNameList: any[] = [];
+
+		const fileMutateResult = await fileMutateAsync({
+			attachList,
+			type: 'food',
+		});
+
+		if (fileMutateResult.length > 0) {
+			attachNameList = fileMutateResult;
+		}
+
+		return attachNameList;
+	};
+
+	const mutateFood = async (data: any) => {
+		const foodMutateResult = await foodMutateAsync({ data });
+		return foodMutateResult;
+	};
+
+	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
+		const attachNameList = await mutateFiles();
+		const data = setFoodMutateObj(attachNameList);
+		const result = await mutateFood(data);
+
+		if (result.status !== 200) {
+			return alert('등록 중 에러가 발생했습니다.');
+		}
+
+		alert('등록 되었습니다.');
+		router.push('/food?page=1&category=0');
 	};
 
 	return (

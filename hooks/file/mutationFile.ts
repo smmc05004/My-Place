@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useMutation } from 'react-query';
 
 interface addFoodProps {
 	attachList: File[];
@@ -30,3 +31,7 @@ export const upload = async ({ attachList, type }: addFoodProps) => {
 
 	return promiseResult;
 };
+
+export default function mutationFile() {
+	return useMutation(upload);
+}
