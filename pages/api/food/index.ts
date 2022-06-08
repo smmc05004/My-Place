@@ -15,7 +15,8 @@ export default async function handler(
 		res.status(200).json(result?.data);
 	}
 	if (req.method === 'POST') {
-		const data = req.body.data;
+		const data = req.body;
+		console.log('body: ', req.body);
 
 		if (!data) {
 			res.status(501).json({ status: 501, message: 'No data' });
