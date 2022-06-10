@@ -2,7 +2,7 @@ const myMenuList = [
 	{
 		id: 'signIn',
 		text: '로그인',
-		href: '#',
+		href: '/auth/login',
 	},
 	{
 		id: 'register',

@@ -5,12 +5,16 @@ import Document, {
 	Main,
 	NextScript,
 } from 'next/document';
+
 import { ReactElement } from 'react';
 import { ServerStyleSheet } from 'styled-components';
 
 // https://nextjs.org/docs/advanced-features/custom-document
 // react 18버전 때문에 나는 에러로 보임
 // react 18버전을 위해선 MyDocument 커스터마이징 피하라고 권고하는데 styled-components 추가해서...
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 export default class MyDocument extends Document {
 	static async getInitialProps(ctx: DocumentContext) {
 		const sheet = new ServerStyleSheet();
@@ -46,7 +50,7 @@ export default class MyDocument extends Document {
 	}
 
 	render(): ReactElement {
-		const kakaoKey = process.env.NEXT_PUBLIC_KAKAO_API_KEY;
+		const kakaoKey = process.env.KAKAO_API_KEY;
 
 		return (
 			<Html lang="ko">

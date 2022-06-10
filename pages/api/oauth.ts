@@ -6,8 +6,8 @@ export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse,
 ) {
-	const REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URL;
-	const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAO_API_KEY;
+	const REDIRECT_URI = process.env.KAKAO_REDIRECT_URL;
+	const REST_API_KEY = process.env.KAKAO_API_KEY;
 
 	const { code } = req.body;
 
@@ -16,6 +16,7 @@ export default async function handler(
 		return;
 	}
 
+	// get access_token
 	const result = await apiRequest.post({
 		url: `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&code=${code}`,
 		contentType: 'application/x-www-form-urlencoded;charset=utf-8',
@@ -28,6 +29,7 @@ export default async function handler(
 		return;
 	}
 
+	// get 회원정보
 	const apiresult = await axios({
 		method: 'GET',
 		url: 'https://kapi.kakao.com/v2/user/me',
@@ -48,6 +50,5 @@ export default async function handler(
 		res.status(200).json(data);
 		return;
 	}
-
 	res.status(404).json({ message: 'use info not found' });
 }

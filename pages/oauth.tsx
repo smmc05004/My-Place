@@ -36,12 +36,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	return {
 		redirect: {
 			permanent: false,
-			destination: `/test`,
+			destination: `/auth/login`,
 			//?nickname=${data?.properties.nickname}
 		},
 	};
 };
 
+// 카카오 oauth 체크 위해 필요한 페이지
 const Oauth: React.FC<OauthProps> = ({ message }) => {
 	return <div>{message}</div>;
 };

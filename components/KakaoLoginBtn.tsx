@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 
 const KakaoButton = () => {
-	const loginUrl = process.env.KAKAO_LOGIN_URL;
+	const loginUrl = process.env.NEXT_PUBLIC_KAKAO_LOGIN_URL;
 
 	return (
 		<Wrapper>
@@ -20,6 +20,6 @@ const Wrapper = styled.div`
 		display: inline-block;
 		width: 100%;
 		height: 150px;
-		color: #fff;
+		color: #000;
 	}
 `;

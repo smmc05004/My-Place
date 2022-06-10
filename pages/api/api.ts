@@ -8,7 +8,7 @@ interface GetProps {
 interface PostProps {
 	url: string;
 	contentType?: string;
-	data: any;
+	data?: any;
 }
 
 enum method {
