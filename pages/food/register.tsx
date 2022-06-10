@@ -11,7 +11,7 @@ interface InitValuesProps {
 	subAddress: string;
 	description: string;
 	visitDate: string;
-	writerId: 1;
+	writer: 1;
 }
 
 const Wrapper = styled.div`
@@ -29,7 +29,7 @@ const initValues: InitValuesProps = {
 	subAddress: '',
 	description: '',
 	visitDate: format(new Date(), 'yyyy-MM-dd'),
-	writerId: 1,
+	writer: 1,
 };
 
 const Register = () => {
@@ -115,9 +115,7 @@ const Register = () => {
 			visitDate:
 				values.category === 1 ? null : new Date(values.visitDate).toISOString(),
 			...(attachNameList.length > 0 && {
-				attach: {
-					create: attachNameList,
-				},
+				attach: attachNameList,
 			}),
 		};
 	};
