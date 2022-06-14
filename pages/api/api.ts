@@ -19,7 +19,7 @@ enum method {
 }
 
 const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-// axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true;
 
 const axiosInstance = axios.create({
 	baseURL: baseUrl,

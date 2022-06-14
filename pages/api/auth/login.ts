@@ -1,5 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import apiRequest from '../api';
+import {} from 'jsonwebtoken';
+import { serialize } from 'cookie';
 
 export default async function handler(
 	req: NextApiRequest,
@@ -16,6 +18,13 @@ export default async function handler(
 		data: { userId, password },
 	});
 	console.log('result: ', result);
+
+	// const serialized = serialize('jwt', result.data, {
+	// 	httpOnly: true,
+	// 	maxAge: 3600 * 1000,
+	// 	path: '/',
+	// });
+	// res.setHeader('Set-Cookie', serialized);
 
 	// res.
 
