@@ -12,6 +12,7 @@ const getFoods = async ({ category, page }: Props) => {
 	const result = await axios({
 		method: 'get',
 		url: `/api/food${qs}`,
+		withCredentials: true,
 	});
 
 	return result;

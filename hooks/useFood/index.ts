@@ -9,6 +9,7 @@ const getFood = async ({ id }: Props) => {
 	const result = await axios({
 		method: 'get',
 		url: `/api/food/${id}`,
+		withCredentials: true,
 	});
 
 	return result;

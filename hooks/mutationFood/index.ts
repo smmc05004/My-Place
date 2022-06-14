@@ -6,7 +6,7 @@ interface addFoodProps {
 }
 
 const addFood = async ({ data }: addFoodProps) => {
-	const result = await axios.post('/api/food', data);
+	const result = await axios.post('/api/food', data, { withCredentials: true });
 	return result;
 };
 

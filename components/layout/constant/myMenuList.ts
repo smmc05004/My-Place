@@ -1,5 +1,9 @@
 const myMenuList = [
 	{
+		id: 'signOut',
+		text: '로그아웃',
+	},
+	{
 		id: 'signIn',
 		text: '로그인',
 		href: '/auth/login',

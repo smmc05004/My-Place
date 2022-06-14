@@ -6,7 +6,9 @@ export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse,
 ) {
+	console.log('cookie: ', req.cookies);
 	if (req.method === 'GET') {
+		// console.log('token: ', req.headers.cookie);
 		const qs = convertObjToQueryString(req.query);
 		const result = await apiRequest.get({
 			url: `/food${qs}`,

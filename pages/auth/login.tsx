@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import styled from 'styled-components';
 import KakaoButton from '../../components/KakaoLoginBtn';
+import mutationLogin from '../../hooks/common/auth/useLogin';
 
 const Wrapper = styled.div`
 	width: 100%;
@@ -15,12 +16,13 @@ const Wrapper = styled.div`
 `;
 
 const formInit = {
-	ids: '',
-	pwds: '',
+	id: '',
+	pwd: '',
 };
 
 const Login = () => {
 	const [formValue, setFormValue] = useState(formInit);
+	const { mutate } = mutationLogin();
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -35,6 +37,21 @@ const Login = () => {
 		e.preventDefault();
 
 		console.log(formValue);
+
+		mutate(
+			{
+				userId: formValue.id,
+				password: formValue.pwd,
+			},
+			{
+				onSuccess: (result) => {
+					console.log('result: ', result);
+				},
+				onError: (error) => {
+					console.log('error: ', error);
+				},
+			},
+		);
 	};
 
 	return (

@@ -23,7 +23,7 @@ export default async function handler(
 	});
 
 	const accessToken = result?.data?.access_token;
-
+	console.log();
 	if (!accessToken) {
 		res.status(500).json({ message: 'access token request error' });
 		return;
@@ -45,6 +45,24 @@ export default async function handler(
 	}
 
 	const { data } = apiresult;
+	console.log('data: ', data.id);
+	const {
+		kakao_account: { profile },
+	} = data;
+
+	const userData = {
+		id: data.id,
+		name: profile.nickname,
+	};
+
+	// const result = await axios({
+	// 	method: 'GET',
+	// 	url: 'https://kapi.kakao.com/v2/user/me',
+	// 	headers: {
+	// 		'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+	// 		'Authorization': `Bearer ${accessToken}`,
+	// 	},
+	// )
 
 	if (data.id) {
 		res.status(200).json(data);

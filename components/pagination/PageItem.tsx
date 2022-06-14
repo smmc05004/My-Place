@@ -22,8 +22,6 @@ const Item = styled.li<{ isActive: boolean }>`
 `;
 
 const PageItem: FC<Props> = ({ num, isActive, handleClick }) => {
-	console.log('isActive: ', isActive);
-
 	return (
 		<Item
 			isActive={isActive}
