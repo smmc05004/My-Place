@@ -1,5 +1,7 @@
 import { FC, useMemo } from 'react';
 import styled from 'styled-components';
+import mutationLogOut from '../../../hooks/common/auth/useLogout';
+import { useStore } from '../../../store';
 import myMenuList from '../constant/myMenuList';
 import MyMenuItem from './MyMenuItem';
 
@@ -12,6 +14,14 @@ const StyledList = styled.ul`
 `;
 
 const MyMenuList: FC = () => {
+	const { user, setUser } = useStore((state) => ({
+		user: state.user,
+		setUser: state.setUser,
+	}));
+
+	console.log({ user });
+	const { mutate } = mutationLogOut();
+
 	const menus = useMemo(
 		() =>
 			myMenuList.map((menu) => {
@@ -20,7 +30,29 @@ const MyMenuList: FC = () => {
 		[],
 	);
 
-	return <StyledList>{menus}</StyledList>;
+	const handleLogout = () => {
+		mutate(
+			{
+				userId: 'oister',
+			},
+			{
+				onSuccess: (result) => {
+					console.log('result: ', result);
+					setUser(null);
+				},
+				onError: (error) => {
+					console.log('error: ', error);
+				},
+			},
+		);
+	};
+
+	return (
+		<StyledList>
+			{/* <li onClick={handleLogout}>로그아웃</li> */}
+			{user ? <li onClick={handleLogout}>로그아웃</li> : menus}
+		</StyledList>
+	);
 };
 
 export default MyMenuList;

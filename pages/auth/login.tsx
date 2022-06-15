@@ -1,8 +1,11 @@
+import axios from 'axios';
 import Link from 'next/link';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import styled from 'styled-components';
 import KakaoButton from '../../components/KakaoLoginBtn';
 import mutationLogin from '../../hooks/common/auth/useLogin';
+import { useStore } from '../../store';
+import apiRequest from '../api/api';
 
 const Wrapper = styled.div`
 	width: 100%;
@@ -21,6 +24,8 @@ const formInit = {
 };
 
 const Login = () => {
+	const setUser = useStore((state) => state.setUser);
+
 	const [formValue, setFormValue] = useState(formInit);
 	const { mutate } = mutationLogin();
 
@@ -33,25 +38,43 @@ const Login = () => {
 		});
 	};
 
-	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		console.log(formValue);
 
-		mutate(
-			{
-				userId: formValue.id,
-				password: formValue.pwd,
-			},
-			{
-				onSuccess: (result) => {
-					console.log('result: ', result);
-				},
-				onError: (error) => {
-					console.log('error: ', error);
-				},
-			},
-		);
+		// mutate(
+		// 	{
+		// 		userId: formValue.id,
+		// 		password: formValue.pwd,
+		// 	},
+		// 	{
+		// 		onSuccess: (result) => {
+		// 			if (result?.status === 200) {
+		// 				setUser(result.data);
+		// 			}
+		// 		},
+		// 		onError: (error) => {
+		// 			console.log('error: ', error);
+		// 		},
+		// 	},
+		// );
+
+		// 이건 되네...
+		const result = await apiRequest.post({
+			url: `/auth/login`,
+			data: { userId: formValue.id, password: formValue.pwd },
+		});
+
+		// const result = await axios.post(
+		// 	'http://localhost:4000/auth/login',
+		// 	{ userId: formValue.id, password: formValue.pwd },
+		// 	{
+		// 		withCredentials: true,
+		// 	},
+		// );
+
+		console.log('result: ', result);
 	};
 
 	return (
