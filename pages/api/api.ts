@@ -4,6 +4,7 @@ import axios from 'axios';
 interface GetProps {
 	url: string;
 	contentType?: string;
+	// cookie?: string;
 }
 interface PostProps {
 	url: string;
@@ -43,12 +44,17 @@ const axiosRequest = {
 		console.log(error.config);
 	},
 
-	get: async function ({ url, contentType = 'application/json' }: GetProps) {
+	get: async function ({
+		url,
+		contentType = 'application/json',
+	}: // cookie,
+	GetProps) {
 		const result = await axiosInstance({
 			method: method.get,
 			url: url,
 			headers: {
 				'Content-Type': contentType,
+				// ...(cookie && { cookie: `jwt=${cookie}` }),
 			},
 		}).catch((error) => {
 			this.handleError(error);

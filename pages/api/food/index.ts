@@ -6,12 +6,13 @@ export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse,
 ) {
-	console.log('cookie: ', req.cookies);
+	// const cookie = req.cookies['jwt'];
+
 	if (req.method === 'GET') {
-		// console.log('token: ', req.headers.cookie);
 		const qs = convertObjToQueryString(req.query);
 		const result = await apiRequest.get({
 			url: `/food${qs}`,
+			// cookie: cookie,
 		});
 
 		res.status(200).json(result?.data);
