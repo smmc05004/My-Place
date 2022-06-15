@@ -23,7 +23,8 @@
 		"react-query": "^3.39.0",
 		"styled-components": "^5.3.5",
 		"styled-reset": "^4.3.4",
-		"swiper": "^8.1.5"
+		"swiper": "^8.1.5",
+		"zustand": "^4.0.0-rc.1"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.17.9",
