@@ -57,10 +57,14 @@ const Wrapper = styled.div`
 					}
 				}
 
-				p {
-					width: 100%;
-					height: 100%;
-					margin-top: 30px;
+				.description {
+					width: 456px;
+					height: 345px;
+					margin-top: 20px;
+					border: none;
+					background: transparent;
+					overflow-y: auto;
+					color: black;
 				}
 			}
 		}
@@ -91,7 +95,7 @@ const Page_FoodDetail = () => {
 	if (isError) return <div>...error</div>;
 
 	const detail = data?.data.data;
-
+	console.log('detail: ', detail);
 	return (
 		<Wrapper>
 			<div className="inner">
@@ -113,14 +117,18 @@ const Page_FoodDetail = () => {
 							</button>
 						</div>
 
-						<p>상세 설명</p>
+						<textarea
+							className="description"
+							value={detail?.description}
+							disabled
+						/>
 					</div>
 				</div>
 
 				{show && (
 					<DetailMap
 						name={detail?.name}
-						address={detail?.address}
+						address={detail?.mainAddress}
 						handleClick={toggleShowMap}
 					/>
 				)}
