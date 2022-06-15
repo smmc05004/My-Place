@@ -1,25 +1,37 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import apiRequest from '../api';
-// import {} from 'jsonwebtoken';
-// import { serialize } from 'cookie';
+import { serialize } from 'cookie';
 
 export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse,
 ) {
 	const { userId, password } = req.body;
-	const result = await apiRequest.post({
-		url: `/auth/login`,
-		data: { userId, password },
-	});
-	const user = result.data?.data;
+	try {
+		const result = await apiRequest.post({
+			url: `/auth/login`,
+			data: { userId, password },
+		});
 
-	// const serialized = serialize('jwt', result.data, {
-	// 	httpOnly: true,
-	// 	maxAge: 3600 * 1000,
-	// 	path: '/',
-	// });
-	// res.setHeader('Set-Cookie', serialized);
+		const user = result.data?.data;
+		const cookie = result.headers['set-cookie'];
 
-	res.status(200).json(user);
+		if (cookie) {
+			const jwt = cookie[0].split(';')[0].split('=')[1];
+
+			const serialized = serialize('jwt', jwt, {
+				httpOnly: true,
+				path: '/',
+				maxAge: 5 * 60 * 1000,
+			});
+
+			res.setHeader('Set-Cookie', serialized);
+		}
+
+		res.status(200).json(user);
+	} catch (error) {
+		res.status(500).json({
+			message: 'Unexpected Error Occured',
+		});
+	}
 }
