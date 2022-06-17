@@ -19,7 +19,7 @@ const MyMenuList: FC = () => {
 		setUser: state.setUser,
 	}));
 
-	console.log({ user });
+	// console.log({ user });
 	const { mutate } = mutationLogOut();
 
 	const menus = useMemo(

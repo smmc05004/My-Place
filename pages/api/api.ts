@@ -5,6 +5,7 @@ interface GetProps {
 	url: string;
 	contentType?: string;
 	// cookie?: string;
+	options?: any;
 }
 interface PostProps {
 	url: string;
@@ -25,15 +26,28 @@ const axiosInstance = axios.create({
 	baseURL: baseUrl,
 	timeout: 5000,
 	withCredentials: true,
+	// validateStatus: function (status) {
+	// 	return status >= 200 && status < 600;
+	// },
 });
 
 const axiosRequest = {
 	handleError: (error: any) => {
-		if (error.response) {
+		const errorRes = error.response;
+		if (errorRes) {
+			console.log('handleError 실행');
+			// console.log('errorRes: ', errorRes);
 			// 요청이 이루어졌으며 서버가 2xx의 범위를 벗어나는 상태 코드로 응답.
-			console.log(error.response.data);
-			console.log(error.response.status);
-			console.log(error.response.headers);
+			// console.log('error data: ', errorRes.data);
+			const errorData = errorRes.data;
+			console.log('errorData: ', errorData);
+			// 토큰 유효성 에러
+
+			if (errorData.statusCode === 401) {
+				return errorData;
+			}
+			// console.log('error status: ', errorRes.status);
+			// console.log('error headers: ', errorRes.headers);
 		} else if (error.request) {
 			// 요청이 이루어 졌으나 응답을 받지 못함.
 			console.log(error.request);
@@ -41,23 +55,26 @@ const axiosRequest = {
 			// 오류를 발생시킨 요청을 설정하는 중에 문제가 발생.
 			console.log('Error', error.message);
 		}
-		console.log(error.config);
+		// console.log(error.config);
 	},
 
 	get: async function ({
 		url,
 		contentType = 'application/json',
-	}: // cookie,
-	GetProps) {
+		options,
+	}: GetProps) {
 		const result = await axiosInstance({
 			method: method.get,
 			url: url,
-			headers: {
-				'Content-Type': contentType,
-				// ...(cookie && { cookie: `jwt=${cookie}` }),
-			},
+			headers: options,
+			// {
+			// 	'Content-Type': contentType,
+			// 	// ...(cookie && { cookie: `jwt=${cookie}` }),
+			// },
 		}).catch((error) => {
-			this.handleError(error);
+			const err = this.handleError(error);
+			console.log('err: ', err);
+			return err;
 		});
 
 		return result;

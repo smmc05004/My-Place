@@ -2,19 +2,39 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { convertObjToQueryString } from '../../../utils/qs';
 import apiRequest from '../api';
 
+type TokenError = 'badToken' | 'expiredToken';
+
+const tokenMsg = {
+	badToken: '토큰이 유효하지 않습니다.',
+	expiredToken: '토큰이 만료되었습니다.',
+};
+
 export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse,
 ) {
-	// const cookie = req.cookies['jwt'];
+	const accessToken = req.cookies['jwt_access_token'];
+	const refreshToken = req.cookies['jwt_refresh_token'];
 
 	if (req.method === 'GET') {
 		const qs = convertObjToQueryString(req.query);
 		const result = await apiRequest.get({
 			url: `/food${qs}`,
-			// cookie: cookie,
+			options: {
+				'Content-Type': 'application/json',
+				...(accessToken && { jwt_access_token: accessToken }),
+				...(refreshToken && { jwt_refresh_token: refreshToken }),
+			},
 		});
 
+		// if (result.error) {
+		// 	const err: TokenError = result.error;
+
+		// 	res.status(401).json({
+		// 		message: tokenMsg[err],
+		// 	});
+		// } else {
+		// }
 		res.status(200).json(result?.data);
 	}
 	if (req.method === 'POST') {

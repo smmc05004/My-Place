@@ -19,7 +19,16 @@ const getFoods = async ({ category, page }: Props) => {
 };
 
 export default function useFoods({ category, page }: Props) {
-	return useQuery(['foods', category, page], () =>
-		getFoods({ category, page }),
+	return useQuery(
+		['foods', category, page],
+		() => getFoods({ category, page }),
+		{
+			onSuccess: () => {
+				console.log('success');
+			},
+			onError: (error) => {
+				console.log('error: ', error);
+			},
+		},
 	);
 }

@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { serialize } from 'cookie';
 import apiRequest from '../api';
 
 export default async function handler(
@@ -8,6 +9,15 @@ export default async function handler(
 	const result = await apiRequest.post({
 		url: `/auth/logout`,
 	});
+
+	// const serialized = serialize('jwt', '', {
+	// 	httpOnly: true,
+	// 	path: '/',
+	// 	maxAge: -1,
+	// });
+
+	// res.setHeader('Set-Cookie', serialized);
+	res.setHeader('Set-Cookie', '');
 	console.log('result: ', result);
 
 	res.status(200).json({

@@ -17,15 +17,22 @@ export default async function handler(
 		const cookie = result.headers['set-cookie'];
 
 		if (cookie) {
-			const jwt = cookie[0].split(';')[0].split('=')[1];
+			const accessToken = cookie[0].split(';')[0].split('=')[1];
+			const refreshToken = cookie[1].split(';')[0].split('=')[1];
 
-			const serialized = serialize('jwt', jwt, {
+			const jwtAccessToken = serialize('jwt_access_token', accessToken, {
 				httpOnly: true,
 				path: '/',
-				maxAge: 5 * 60 * 1000,
+				maxAge: 30,
 			});
 
-			res.setHeader('Set-Cookie', serialized);
+			const jwtRefreshToken = serialize('jwt_refresh_token', refreshToken, {
+				httpOnly: true,
+				path: '/',
+				maxAge: 60,
+			});
+
+			res.setHeader('Set-Cookie', [jwtAccessToken, jwtRefreshToken]);
 		}
 
 		res.status(200).json(user);
