@@ -26,16 +26,16 @@ export default async function handler(
 				...(refreshToken && { jwt_refresh_token: refreshToken }),
 			},
 		});
+		console.log('api result: ', result);
+		const errorStatusCode = result.statusCode;
 
-		// if (result.error) {
-		// 	const err: TokenError = result.error;
-
-		// 	res.status(401).json({
-		// 		message: tokenMsg[err],
-		// 	});
-		// } else {
-		// }
-		res.status(200).json(result?.data);
+		if (errorStatusCode && errorStatusCode === 401) {
+			res
+				.status(401)
+				.json({ message: errorStatusCode.message || 'Auth Error' });
+		} else {
+			res.status(200).json(result?.data);
+		}
 	}
 	if (req.method === 'POST') {
 		const data = req.body;

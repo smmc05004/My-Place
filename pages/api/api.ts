@@ -42,10 +42,8 @@ const axiosRequest = {
 			const errorData = errorRes.data;
 			console.log('errorData: ', errorData);
 			// 토큰 유효성 에러
+			return errorData;
 
-			if (errorData.statusCode === 401) {
-				return errorData;
-			}
 			// console.log('error status: ', errorRes.status);
 			// console.log('error headers: ', errorRes.headers);
 		} else if (error.request) {

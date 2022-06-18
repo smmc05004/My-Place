@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useQuery } from 'react-query';
+import { requestClient } from '../../client/clientApi';
 import { convertObjToQueryString } from '../../utils/qs';
 
 interface Props {
@@ -9,13 +10,20 @@ interface Props {
 
 const getFoods = async ({ category, page }: Props) => {
 	const qs = convertObjToQueryString({ category, page });
-	const result = await axios({
-		method: 'get',
-		url: `/api/food${qs}`,
-		withCredentials: true,
-	});
+	// const result = await axios({
+	// 	method: 'get',
+	// 	url: `/api/food${qs}`,
+	// 	withCredentials: true,
+	// });
+	try {
+		const result = await requestClient.get({
+			url: `/api/food${qs}`,
+		});
 
-	return result;
+		return result;
+	} catch (error) {
+		console.log('request error: ', error);
+	}
 };
 
 export default function useFoods({ category, page }: Props) {
@@ -27,7 +35,7 @@ export default function useFoods({ category, page }: Props) {
 				console.log('success');
 			},
 			onError: (error) => {
-				console.log('error: ', error);
+				console.log('query error: ', error);
 			},
 		},
 	);

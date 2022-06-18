@@ -46,6 +46,10 @@ const Login = () => {
 			},
 			{
 				onSuccess: (result) => {
+					if (result?.status === 401) {
+						console.log('auth error');
+					}
+
 					if (result?.status === 200) {
 						setUser(result.data);
 					}
@@ -78,7 +82,7 @@ const Login = () => {
 						/>
 					</div>
 
-					<div>
+					<div style={{ margin: '40px' }}>
 						<button>로그인</button>
 
 						<Link href="/auth/register">

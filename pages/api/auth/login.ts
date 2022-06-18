@@ -23,13 +23,13 @@ export default async function handler(
 			const jwtAccessToken = serialize('jwt_access_token', accessToken, {
 				httpOnly: true,
 				path: '/',
-				maxAge: 30,
+				maxAge: 60,
 			});
 
 			const jwtRefreshToken = serialize('jwt_refresh_token', refreshToken, {
 				httpOnly: true,
 				path: '/',
-				maxAge: 60,
+				maxAge: 120,
 			});
 
 			res.setHeader('Set-Cookie', [jwtAccessToken, jwtRefreshToken]);
