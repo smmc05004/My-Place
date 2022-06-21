@@ -7,24 +7,28 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 import theme from '../styles/theme';
+import { Provider, useCreateStore } from '../lib/store';
 
 function MyApp({ Component, pageProps }: AppProps) {
+	const createStore = useCreateStore(pageProps.initialZustandState);
 	const [queryClient] = useState(() => new QueryClient());
 
 	return (
 		<>
 			<GlobalStyle />
 
-			<QueryClientProvider client={queryClient}>
-				<Hydrate state={pageProps.dehydratedState}>
-					<ThemeProvider theme={theme}>
-						<Layout>
-							<Component {...pageProps} />
-						</Layout>
-					</ThemeProvider>
-				</Hydrate>
-				<ReactQueryDevtools />
-			</QueryClientProvider>
+			<Provider createStore={createStore}>
+				<QueryClientProvider client={queryClient}>
+					<Hydrate state={pageProps.dehydratedState}>
+						<ThemeProvider theme={theme}>
+							<Layout>
+								<Component {...pageProps} />
+							</Layout>
+						</ThemeProvider>
+						<ReactQueryDevtools />
+					</Hydrate>
+				</QueryClientProvider>
+			</Provider>
 		</>
 	);
 }

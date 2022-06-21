@@ -3,7 +3,7 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import styled from 'styled-components';
 import KakaoButton from '../../components/KakaoLoginBtn';
 import mutationLogin from '../../hooks/common/auth/useLogin';
-import { useStore } from '../../store';
+import { initializeStore, useStore } from '../../lib/store';
 
 const Wrapper = styled.div`
 	width: 100%;
@@ -22,6 +22,7 @@ const formInit = {
 };
 
 const Login = () => {
+	useStore();
 	const setUser = useStore((state) => state.setUser);
 
 	const [formValue, setFormValue] = useState(formInit);
@@ -51,7 +52,7 @@ const Login = () => {
 					}
 
 					if (result?.status === 200) {
-						setUser(result.data);
+						// setUser(result.data);
 					}
 				},
 				onError: (error) => {
@@ -98,3 +99,17 @@ const Login = () => {
 };
 
 export default Login;
+
+// The date returned here will be different for every request that hits the page,
+// that is because the page becomes a serverless function instead of being statically
+// exported when you use `getServerSideProps` or `getInitialProps`
+// export function getServerSideProps() {
+// 	const zustandStore = initializeStore();
+// 	return {
+// 		props: {
+// 			// the "stringify and then parse again" piece is required as next.js
+// 			// isn't able to serialize it to JSON properly
+// 			initialZustandState: JSON.parse(JSON.stringify(zustandStore.getState())),
+// 		},
+// 	};
+// }

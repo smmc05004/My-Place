@@ -1,7 +1,11 @@
-import create, { StoreApi } from 'zustand';
-import { StoreProps } from './type';
 import { useLayoutEffect } from 'react';
+import create, { StoreApi } from 'zustand';
 import createContext from 'zustand/context';
+
+interface StoreProps {
+	user: any;
+	setUser: any;
+}
 
 let store: any;
 
@@ -20,8 +24,10 @@ export const initializeStore = (preloadedState = {}) => {
 	return create((set, get) => ({
 		...getDefaultInitialState(),
 		...preloadedState,
-		setUser: (user: any) => {
-			set({ user: user });
+		setUser: () => {
+			set({
+				user: null,
+			});
 		},
 	}));
 };

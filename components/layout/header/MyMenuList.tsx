@@ -1,7 +1,8 @@
 import { FC, useMemo } from 'react';
 import styled from 'styled-components';
 import mutationLogOut from '../../../hooks/common/auth/useLogout';
-import { useStore } from '../../../store';
+import { useStore } from '../../../lib/store';
+// import { useStore } from '../../../store';
 import myMenuList from '../constant/myMenuList';
 import MyMenuItem from './MyMenuItem';
 
@@ -38,7 +39,7 @@ const MyMenuList: FC = () => {
 			{
 				onSuccess: (result) => {
 					console.log('result: ', result);
-					setUser(null);
+					// setUser(null);
 				},
 				onError: (error) => {
 					console.log('error: ', error);
