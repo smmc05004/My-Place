@@ -13,7 +13,6 @@ import { ServerStyleSheet } from 'styled-components';
 // react 18버전 때문에 나는 에러로 보임
 // react 18버전을 위해선 MyDocument 커스터마이징 피하라고 권고하는데 styled-components 추가해서...
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 export default class MyDocument extends Document {
 	static async getInitialProps(ctx: DocumentContext) {
@@ -58,8 +57,12 @@ export default class MyDocument extends Document {
 					<script
 						type="text/javascript"
 						src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoKey}&libraries=services`}
+						defer
 					/>
-					<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js" />
+					<script
+						src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
+						defer
+					/>
 				</Head>
 
 				<body>

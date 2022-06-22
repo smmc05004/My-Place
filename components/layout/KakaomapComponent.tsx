@@ -13,5 +13,6 @@ const KakaomapComponent: React.FC<KakaomapComponentProps> = forwardRef(
 		);
 	},
 );
+KakaomapComponent.displayName = 'KakaomapComponent';
 
 export default KakaomapComponent;
