@@ -24,9 +24,9 @@ export const initializeStore = (preloadedState = {}) => {
 	return create((set, get) => ({
 		...getDefaultInitialState(),
 		...preloadedState,
-		setUser: () => {
+		setUser: (user: any) => {
 			set({
-				user: null,
+				user,
 			});
 		},
 	}));

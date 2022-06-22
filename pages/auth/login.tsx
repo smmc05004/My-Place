@@ -22,8 +22,9 @@ const formInit = {
 };
 
 const Login = () => {
-	useStore();
-	const setUser = useStore((state) => state.setUser);
+	const { setUser } = useStore((state) => ({
+		setUser: state.setUser,
+	}));
 
 	const [formValue, setFormValue] = useState(formInit);
 	const { mutate } = mutationLogin();
@@ -52,7 +53,7 @@ const Login = () => {
 					}
 
 					if (result?.status === 200) {
-						// setUser(result.data);
+						setUser(result?.data);
 					}
 				},
 				onError: (error) => {
@@ -84,7 +85,7 @@ const Login = () => {
 					</div>
 
 					<div style={{ margin: '40px' }}>
-						<button>로그인</button>
+						<button type="submit">로그인</button>
 
 						<Link href="/auth/register">
 							<a>회원가입</a>
