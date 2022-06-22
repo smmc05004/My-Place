@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { FC } from 'react';
 import styled from 'styled-components';
-
+import Image from 'next/image';
 interface FoodProps {
 	id: number;
 	name: string;
@@ -33,16 +33,19 @@ const Item = styled.li`
 	.item-inner {
 		padding: 20px;
 
-		img {
-			max-width: 300px;
-			max-height: 300px;
-			border-radius: 5px;
+		.image-wrapper {
+			width: 300px;
+			height: 300px;
 			overflow: hidden;
-			cursor: pointer;
-		}
 
-		p {
-			margin: 10px 0;
+			.food-img {
+				border-radius: 5px;
+				cursor: pointer;
+			}
+
+			p {
+				margin: 10px 0;
+			}
 		}
 	}
 `;
@@ -51,11 +54,21 @@ const FoodItem: FC<Props> = ({ item }) => {
 	return (
 		<Item>
 			<div className="item-inner">
-				<Link href={`/food/${item.id}`}>
-					<a>
-						<img src="/images/food.jpeg" alt="음식점 대표 사진" />
-					</a>
-				</Link>
+				<div className="image-wrapper">
+					<Link href={`/food/${item.id}`}>
+						<a>
+							<Image
+								className="food-img"
+								src="/images/food.jpeg"
+								alt="음식점 대표 사진"
+								layout="responsive"
+								objectFit="contain"
+								width="100%"
+								height="100%"
+							/>
+						</a>
+					</Link>
+				</div>
 
 				<p>{item.name}</p>
 				<div>방문일자: {item?.visitDate?.substring(0, 10)}</div>
